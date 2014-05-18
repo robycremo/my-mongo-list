@@ -1,0 +1,24 @@
+var MongoClient = require('mongodb').MongoClient, url= 'mongodb://localhost/test'
+
+function Mylist(db){
+  if(!(this instanceof Mylist)){
+    return new Mylist(db)
+  }
+  this.db = db
+}
+
+Mylist.prototype.save = function(mylist, done){
+   var collection = this.db.collection('mylist');
+   collection.insert(mylist,function(err,docs){
+     done(err, docs[0])
+   })
+}
+
+Mylist.prototype.load = function(mylist, done){
+   var collection = this.db.collection('mylist');
+   collection.find(mylist,function(err,docs){
+     done(err, docs[0])
+   })
+}
+
+module.exports=Mylist
